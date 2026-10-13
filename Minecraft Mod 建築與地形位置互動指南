@@ -58,7 +58,7 @@
 
     <!-- 詳情互動 Modal 視窗 -->
     <div id="detailModal" class="fixed inset-0 bg-black/70 backdrop-blur-xs z-50 flex items-center justify-center p-4 hidden">
-        <div class="bg-slate-800 border border-slate-700 rounded-xl max-w-lg w-full p-6 relative shadow-2xl animate-in fade-in zoom-in duration-150">
+        <div class="bg-slate-800 border border-slate-700 rounded-xl max-w-lg w-full p-6 relative shadow-2xl">
             <button id="closeModal" class="absolute top-4 right-4 text-slate-400 hover:text-white text-xl cursor-pointer">
                 <i class="fa-solid fa-xmark"></i>
             </button>
@@ -75,7 +75,6 @@
 
     <!-- JavaScript 互動邏輯 -->
     <script>
-        // 資料庫：Minecraft Mod 結構與地形資料
         const structuresData = [
             {
                 id: 1,
@@ -156,10 +155,8 @@
         let currentFilter = 'all';
         let currentSearch = '';
 
-        // 渲染卡片函數
         function renderCards() {
             cardGrid.innerHTML = '';
-            
             const filtered = structuresData.filter(item => {
                 const matchesFilter = currentFilter === 'all' || item.mod === currentFilter;
                 const matchesSearch = item.name.toLowerCase().includes(currentSearch.toLowerCase()) ||
@@ -201,7 +198,6 @@
             });
         }
 
-        // 開啟詳細 Modal
         window.openModal = function(id) {
             const item = structuresData.find(d => d.id === id);
             if (!item) return;
@@ -224,7 +220,6 @@
             detailModal.classList.remove('hidden');
         }
 
-        // 關閉 Modal
         closeModal.addEventListener('click', () => {
             detailModal.classList.add('hidden');
         });
@@ -235,13 +230,11 @@
             }
         });
 
-        // 搜尋監聽
         searchInput.addEventListener('input', (e) => {
             currentSearch = e.target.value.trim();
             renderCards();
         });
 
-        // 分類過濾監聽
         filterButtons.forEach(btn => {
             btn.addEventListener('click', () => {
                 filterButtons.forEach(b => {
@@ -256,7 +249,6 @@
             });
         });
 
-        // 初始化渲染
         renderCards();
     </script>
 </body>
