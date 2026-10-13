@@ -1,1 +1,255 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minecraft Mod 建築與地形位置互動指南</title>
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body class="bg-slate-900 text-slate-100 min-h-screen font-sans">
 
+    <!-- 頂部導覽列 -->
+    <header class="bg-slate-800 border-b border-slate-700 sticky top-0 z-30 shadow-md">
+        <div class="max-w-7xl mx-auto px-4 py-4 flex flex-col sm:flex-row justify-between items-center gap-4">
+            <div class="flex items-center space-x-3">
+                <div class="bg-emerald-600 text-white p-2.5 rounded-lg shadow">
+                    <i class="fa-solid fa-cube text-xl"></i>
+                </div>
+                <div>
+                    <h1 class="text-xl font-bold tracking-wide">Minecraft Mod 建築與地形位置指南</h1>
+                    <p class="text-xs text-slate-400">專為大型模組玩家打造的結構與生成高度互動查詢工具</p>
+                </div>
+            </div>
+            <!-- 搜尋列 -->
+            <div class="w-full sm:w-72 relative">
+                <span class="absolute inset-y-0 left-0 flex items-center pl-3 text-slate-400">
+                    <i class="fa-solid fa-search"></i>
+                </span>
+                <input type="text" id="searchInput" placeholder="搜尋建築、Mod 或生物群系..." 
+                    class="w-full pl-10 pr-4 py-2 bg-slate-900 border border-slate-700 rounded-lg text-sm focus:outline-none focus:border-emerald-500 transition">
+            </div>
+        </div>
+    </header>
+
+    <!-- 主要內容區 -->
+    <main class="max-w-7xl mx-auto px-4 py-8">
+        
+        <!-- 分類過濾按鈕 -->
+        <div class="flex flex-wrap gap-2 mb-8 justify-center sm:justify-start" id="filterButtons">
+            <button data-filter="all" class="filter-btn px-4 py-2 rounded-lg text-sm font-medium bg-emerald-600 text-white shadow transition cursor-pointer">全部顯示</button>
+            <button data-filter="create" class="filter-btn px-4 py-2 rounded-lg text-sm font-medium bg-slate-800 text-slate-300 hover:bg-slate-700 transition cursor-pointer">Create 機械動力</button>
+            <button data-filter="cataclysm" class="filter-btn px-4 py-2 rounded-lg text-sm font-medium bg-slate-800 text-slate-300 hover:bg-slate-700 transition cursor-pointer">Cataclysm 頭目地牢</button>
+            <button data-filter="tectonic" class="filter-btn px-4 py-2 rounded-lg text-sm font-medium bg-slate-800 text-slate-300 hover:bg-slate-700 transition cursor-pointer">Tectonic 地形擴充</button>
+        </div>
+
+        <!-- 卡片網格 -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="cardGrid">
+            <!-- 內容會透過 JavaScript 動態載入 -->
+        </div>
+
+        <!-- 查無結果提示 -->
+        <div id="noResult" class="hidden text-center py-16">
+            <i class="fa-solid fa-face-grimace text-4xl text-slate-500 mb-3"></i>
+            <p class="text-slate-400">找不到符合條件的建築或地形資料，請嘗試其他關鍵字。</p>
+        </div>
+    </main>
+
+    <!-- 詳情互動 Modal 視窗 -->
+    <div id="detailModal" class="fixed inset-0 bg-black/70 backdrop-blur-xs z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-slate-800 border border-slate-700 rounded-xl max-w-lg w-full p-6 relative shadow-2xl">
+            <button id="closeModal" class="absolute top-4 right-4 text-slate-400 hover:text-white text-xl cursor-pointer">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+            <div id="modalContent">
+                <!-- 動態注入 Modal 內容 -->
+            </div>
+        </div>
+    </div>
+
+    <!-- 頁尾 -->
+    <footer class="text-center py-8 text-xs text-slate-500 border-t border-slate-800 mt-12">
+        Minecraft Mod Structures & Biomes Interactive Guide &copy; 2026 | Developed with Vibe Coding
+    </footer>
+
+    <!-- JavaScript 互動邏輯 -->
+    <script>
+        const structuresData = [
+            {
+                id: 1,
+                name: "機械工廠遺跡 (Factory Ruins)",
+                mod: "create",
+                modName: "Create 機械動力",
+                badgeColor: "bg-amber-600/20 text-amber-400 border-amber-600/30",
+                biome: "平原、森林、荒地",
+                yLevel: "Y: 60 ~ 85 (地表或半埋入)",
+                summary: "散落於地表的工業風廢墟，內含早期機械組件、軸承與齒輪，適合前期拆解取得金屬材料。",
+                details: "通常會在預設平原或森林生成。小心廢墟內部可能會有零散的防禦機械或陷阱。建議配合磁鐵或地圖探索時特別留意破碎的磚牆與鐵欄杆外觀。"
+            },
+            {
+                id: 2,
+                name: "工程師之村 (Engineer's Workshop)",
+                mod: "create",
+                modName: "Create 機械動力",
+                badgeColor: "bg-amber-600/20 text-amber-400 border-amber-600/30",
+                biome: "針葉林、山麓",
+                yLevel: "Y: 65 ~ 90 (山坡地帶)",
+                summary: "小型工匠聚落，擁有壓印機、大型水車或發電機組的藍圖結構與實體樣本。",
+                details: "在這裡可以找到完整的機械動力生產線雛形。注意此建築容易與 Tectonic 的極端陡峭山坡產生模組相容性碰撞，若地形過於破碎可能會懸空。"
+            },
+            {
+                id: 3,
+                name: "深淵地牢 (The Abyssal Fortress)",
+                mod: "cataclysm",
+                modName: "Cataclysm",
+                badgeColor: "bg-rose-600/20 text-rose-400 border-rose-600/30",
+                biome: "深海 / 汪洋底部",
+                yLevel: "Y: -45 ~ -10 (海底深處)",
+                summary: "極度危險的海底大型地下城，由強大頭目鎮守，內部充滿致命機關與豐富寶藏。",
+                details: "進入前請務必準備好水肺藥水、夜視與高級裝備。頭目攻擊力極高，周遭伴隨大量海怪護衛，擊敗後可獲得稀有合成核心與稀有金屬。"
+            },
+            {
+                id: 4,
+                name: "燃魂熔爐祭壇 (Ignis Altar)",
+                mod: "cataclysm",
+                modName: "Cataclysm",
+                badgeColor: "bg-rose-600/20 text-rose-400 border-rose-600/30",
+                biome: "獄髓荒地 (Nether Wastes)",
+                yLevel: "Y: 10 ~ 40 (地獄岩漿海周邊)",
+                summary: "位於地獄深處的巨大烈焰熔爐，為召喚與挑戰強大火焰頭目的核心場所。",
+                details: "周遭環繞大量熔岩瀑布與烈焰使者。建議攜帶抗火藥水與遠程武器，利用地形掩護進行戰鬥，切勿直接正面硬扛範圍技能。"
+            },
+            {
+                id: 5,
+                name: "巨型沉降山脈 (Tectonic Alpine Peaks)",
+                mod: "tectonic",
+                modName: "Tectonic 地形擴充",
+                badgeColor: "bg-cyan-600/20 text-cyan-400 border-cyan-600/30",
+                biome: "高山、雪山群系",
+                yLevel: "Y: 100 ~ 320 (超越原版高度上限)",
+                summary: "大幅改造原版山脈，呈現宏偉、陡峭且層次豐富的真實世界級高聳山體地形。",
+                details: "此地形會顯著影響建築選址與洞穴生成機率。山體內部擁有更深、更壯觀的喀斯特溶洞與礦脈分佈，非常適合喜歡高空建築或滑翔翼探索的玩家。"
+            },
+            {
+                id: 6,
+                name: "深層大峽谷裂谷 (Deep Rift Canyons)",
+                mod: "tectonic",
+                modName: "Tectonic 地形擴充",
+                badgeColor: "bg-cyan-600/20 text-cyan-400 border-cyan-600/30",
+                biome: "惡地、乾燥高原",
+                yLevel: "Y: -20 ~ 50 (地表向下裂開)",
+                summary: "貫穿地表的深邃壯麗峽谷，岩壁裸露大量稀有礦石與隱蔽的小型洞穴入口。",
+                details: "在探索時需小心視線死角與突如其來的墜落傷害。峽谷底部的光線極低，經常是怪物聚集的溫床，但也是前期快速搜刮鐵、銅與煤炭的好去處。"
+            }
+        ];
+
+        const cardGrid = document.getElementById('cardGrid');
+        const searchInput = document.getElementById('searchInput');
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        const noResult = document.getElementById('noResult');
+        const detailModal = document.getElementById('detailModal');
+        const closeModal = document.getElementById('closeModal');
+        const modalContent = document.getElementById('modalContent');
+
+        let currentFilter = 'all';
+        let currentSearch = '';
+
+        function renderCards() {
+            cardGrid.innerHTML = '';
+            const filtered = structuresData.filter(item => {
+                const matchesFilter = currentFilter === 'all' || item.mod === currentFilter;
+                const matchesSearch = item.name.toLowerCase().includes(currentSearch.toLowerCase()) ||
+                                      item.modName.toLowerCase().includes(currentSearch.toLowerCase()) ||
+                                      item.biome.toLowerCase().includes(currentSearch.toLowerCase()) ||
+                                      item.summary.toLowerCase().includes(currentSearch.toLowerCase());
+                return matchesFilter && matchesSearch;
+            });
+
+            if (filtered.length === 0) {
+                noResult.classList.remove('hidden');
+                return;
+            } else {
+                noResult.classList.add('hidden');
+            }
+
+            filtered.forEach(item => {
+                const card = document.createElement('div');
+                card.className = "bg-slate-800 border border-slate-700 rounded-xl p-5 shadow hover:border-emerald-500/50 transition flex flex-col justify-between group";
+                card.innerHTML = `
+                    <div>
+                        <div class="flex justify-between items-start gap-2 mb-3">
+                            <span class="text-xs px-2.5 py-1 rounded-full border ${item.badgeColor} font-medium">${item.modName}</span>
+                            <span class="text-xs text-slate-400 bg-slate-900 px-2 py-0.5 rounded border border-slate-700"><i class="fa-solid fa-layer-group mr-1"></i>${item.yLevel.split(' ')[0]}</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-white group-hover:text-emerald-400 transition mb-2">${item.name}</h3>
+                        <p class="text-xs text-slate-300 mb-3 leading-relaxed">${item.summary}</p>
+                        <div class="space-y-1.5 text-xs text-slate-400 border-t border-slate-700/60 pt-3">
+                            <p><strong class="text-slate-300">生物群系：</strong>${item.biome}</p>
+                            <p><strong class="text-slate-300">建議高度：</strong>${item.yLevel}</p>
+                        </div>
+                    </div>
+                    <button onclick="openModal(${item.id})" class="mt-5 w-full bg-slate-700 hover:bg-emerald-600 text-slate-200 hover:text-white py-2 rounded-lg text-xs font-medium transition flex items-center justify-center gap-2 cursor-pointer">
+                        <span>查看詳細探索指南</span>
+                        <i class="fa-solid fa-arrow-right text-[10px]"></i>
+                    </button>
+                `;
+                cardGrid.appendChild(card);
+            });
+        }
+
+        window.openModal = function(id) {
+            const item = structuresData.find(d => d.id === id);
+            if (!item) return;
+
+            modalContent.innerHTML = `
+                <div class="flex items-center gap-2 mb-3">
+                    <span class="text-xs px-2.5 py-1 rounded-full border ${item.badgeColor} font-medium">${item.modName}</span>
+                </div>
+                <h2 class="text-xl font-bold text-white mb-2">${item.name}</h2>
+                <div class="space-y-3 text-sm text-slate-300 my-4 bg-slate-900/50 p-4 rounded-lg border border-slate-700/60">
+                    <p><strong>適用生物群系：</strong><span class="text-slate-200">${item.biome}</span></p>
+                    <p><strong>建議生成高度：</strong><span class="text-slate-200">${item.yLevel}</span></p>
+                    <p><strong>結構簡介：</strong>${item.summary}</p>
+                </div>
+                <div>
+                    <h4 class="text-xs font-bold text-emerald-400 uppercase tracking-wider mb-1"><i class="fa-solid fa-circle-info mr-1"></i>探索與注意事項</h4>
+                    <p class="text-sm text-slate-300 leading-relaxed">${item.details}</p>
+                </div>
+            `;
+            detailModal.classList.remove('hidden');
+        }
+
+        closeModal.addEventListener('click', () => {
+            detailModal.classList.add('hidden');
+        });
+
+        detailModal.addEventListener('click', (e) => {
+            if (e.target === detailModal) {
+                detailModal.classList.add('hidden');
+            }
+        });
+
+        searchInput.addEventListener('input', (e) => {
+            currentSearch = e.target.value.trim();
+            renderCards();
+        });
+
+        filterButtons.forEach(btn => {
+            btn.addEventListener('click', () => {
+                filterButtons.forEach(b => {
+                    b.classList.remove('bg-emerald-600', 'text-white');
+                    b.classList.add('bg-slate-800', 'text-slate-300');
+                });
+                btn.classList.remove('bg-slate-800', 'text-slate-300');
+                btn.classList.add('bg-emerald-600', 'text-white');
+
+                currentFilter = btn.getAttribute('data-filter');
+                renderCards();
+            });
+        });
+
+        renderCards();
+    </script>
+</body>
+</html>
