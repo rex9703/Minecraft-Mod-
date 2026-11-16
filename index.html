@@ -1,16 +1,15 @@
 <!DOCTYPE html>
-<html lang="zh-TW">
+<html lang="zh-TW" translate="no" class="notranslate">
 <head>
     <meta charset="UTF-8">
+    <meta name="google" content="notranslate">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MCMOD 模組精選百科與結構指南</title>
-    <!-- Tailwind CSS CDN -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&display=swap');
         body { font-family: 'Noto Sans TC', sans-serif; }
-        /* 自訂捲軸樣式 */
         ::-webkit-scrollbar { width: 8px; }
         ::-webkit-scrollbar-track { background: #0f172a; }
         ::-webkit-scrollbar-thumb { background: #334155; border-radius: 4px; }
@@ -19,10 +18,9 @@
 </head>
 <body class="bg-slate-900 text-slate-100 flex h-screen overflow-hidden">
 
-    <!-- 1. 左側固定導覽列 (Sidebar - 對應 AGENTS.md 的 Wiki 架構) -->
+    <!-- 左側固定導覽列 -->
     <aside class="w-64 bg-slate-800 border-r border-slate-700 flex flex-col justify-between hidden lg:flex shrink-0">
         <div>
-            <!-- 網站 Logo 與標題 -->
             <div class="p-5 border-b border-slate-700 flex items-center space-x-3">
                 <div class="w-9 h-9 bg-emerald-600 rounded-lg flex items-center justify-center text-white shadow-lg">
                     <i class="fa-solid fa-cubes text-lg"></i>
@@ -33,7 +31,6 @@
                 </div>
             </div>
 
-            <!-- 分類快速導覽 -->
             <div class="p-4">
                 <p class="text-xs font-bold text-slate-400 uppercase tracking-wider px-3 mb-2">模組分類導覽</p>
                 <nav class="space-y-1" id="sidebarNav">
@@ -60,7 +57,6 @@
                 </nav>
             </div>
 
-            <!-- AGENTS.md 規範提示區塊 -->
             <div class="mx-4 p-3.5 bg-slate-900/80 border border-slate-700/80 rounded-xl text-xs space-y-1.5">
                 <div class="flex items-center text-emerald-400 font-bold gap-1.5">
                     <i class="fa-solid fa-robot"></i>
@@ -72,7 +68,6 @@
             </div>
         </div>
 
-        <!-- 底部資訊 -->
         <div class="p-4 border-t border-slate-700 text-xs text-slate-500 flex justify-between items-center">
             <span>MCMOD Wiki &copy; 2026</span>
             <a href="https://github.com/rex9703/Minecraft-Mod-" target="_blank" class="text-slate-400 hover:text-white transition">
@@ -81,10 +76,8 @@
         </div>
     </aside>
 
-    <!-- 2. 右側主要內容區 -->
+    <!-- 右側主要內容區 -->
     <div class="flex-1 flex flex-col h-screen overflow-y-auto">
-        
-        <!-- 頂部搜尋與導覽列 -->
         <header class="bg-slate-800/90 backdrop-blur border-b border-slate-700 sticky top-0 z-30 px-6 py-4">
             <div class="max-w-6xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-4">
                 <div class="flex items-center gap-3 w-full sm:w-auto">
@@ -97,7 +90,6 @@
                     </div>
                 </div>
 
-                <!-- 即時搜尋框 -->
                 <div class="w-full sm:w-80 relative">
                     <span class="absolute inset-y-0 left-0 flex items-center pl-3.5 text-slate-400">
                         <i class="fa-solid fa-search text-sm"></i>
@@ -108,10 +100,7 @@
             </div>
         </header>
 
-        <!-- 主內容容器 -->
         <main class="max-w-6xl mx-auto px-6 py-8 w-full flex-1">
-            
-            <!-- 手機版/快速過濾標籤列 -->
             <div class="flex flex-wrap gap-2 mb-6" id="topFilterButtons">
                 <button data-filter="all" class="top-filter-btn px-3.5 py-1.5 rounded-lg text-xs font-medium bg-emerald-600 text-white shadow transition cursor-pointer">全部模組</button>
                 <button data-filter="tech" class="top-filter-btn px-3.5 py-1.5 rounded-lg text-xs font-medium bg-slate-800 text-slate-300 hover:bg-slate-700 border border-slate-700 transition cursor-pointer">⚙️ 科技工業</button>
@@ -120,12 +109,8 @@
                 <button data-filter="performance" class="top-filter-btn px-3.5 py-1.5 rounded-lg text-xs font-medium bg-slate-800 text-slate-300 hover:bg-slate-700 border border-slate-700 transition cursor-pointer">🚀 效能與遠景</button>
             </div>
 
-            <!-- 模組卡片網格 -->
-            <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6" id="cardGrid">
-                <!-- 由 JavaScript 根據 AGENTS.md 標準格式動態渲染 -->
-            </div>
+            <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6" id="cardGrid"></div>
 
-            <!-- 查無結果提示 -->
             <div id="noResult" class="hidden text-center py-20 bg-slate-800/40 rounded-2xl border border-slate-800">
                 <i class="fa-solid fa-box-open text-4xl text-slate-500 mb-3"></i>
                 <p class="text-slate-300 font-medium">找不到符合條件的模組或結構資料</p>
@@ -133,32 +118,22 @@
             </div>
         </main>
 
-        <!-- 頁尾 -->
         <footer class="text-center py-6 text-xs text-slate-500 border-t border-slate-800/80 mt-12">
             Minecraft Mod Wiki & Interactive Guide &copy; 2026 | 遵循 <span class="text-emerald-400">AGENTS.md</span> 模組化規範建置
         </footer>
     </div>
 
-    <!-- 3. 詳情互動 Modal 視窗 (展示完整百科資料) -->
+    <!-- 詳情互動 Modal 視窗 -->
     <div id="detailModal" class="fixed inset-0 bg-black/75 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
         <div class="bg-slate-800 border border-slate-700 rounded-2xl max-w-2xl w-full p-6 sm:p-8 relative shadow-2xl max-h-[90vh] overflow-y-auto">
             <button id="closeModal" class="absolute top-5 right-5 w-8 h-8 rounded-lg bg-slate-700/80 text-slate-300 hover:bg-rose-600 hover:text-white flex items-center justify-center transition cursor-pointer">
                 <i class="fa-solid fa-xmark"></i>
             </button>
-            <div id="modalContent">
-                <!-- 動態注入完整 MCMOD 百科資訊 -->
-            </div>
+            <div id="modalContent"></div>
         </div>
     </div>
 
-    <!-- 4. JavaScript 核心資料與渲染邏輯 (AGENTS.md 標準資料結構) -->
     <script>
-        /**
-         * 【AGENTS.md 擴充規範】：
-         * 若 AI 需新增模組介紹，請於 modsData 陣列中依下列標準欄位新增物件：
-         * id, name, enName, category ('tech'|'adventure'|'worldgen'|'performance'), categoryName,
-         * badgeColor, versions, loaders, summary, mechanics (陣列), worldGenInfo, addons, compatibilityNotes
-         */
         const modsData = [
             {
                 id: 1,
@@ -288,7 +263,6 @@
         let currentFilter = 'all';
         let currentSearch = '';
 
-        // 渲染卡片函式
         function renderCards() {
             cardGrid.innerHTML = '';
             const q = currentSearch.toLowerCase();
@@ -313,4 +287,123 @@
 
             filtered.forEach(item => {
                 const card = document.createElement('div');
-                card.className = "bg-slate-800/90 border border-slate-700/80 rounded-2xl p-6 shadow-lg hover:border-emerald-500/60 hover:-translate-y-0
+                card.className = "bg-slate-800/90 border border-slate-700/80 rounded-2xl p-6 shadow-lg hover:border-emerald-500/60 hover:-translate-y-0.5 transition duration-200 flex flex-col justify-between group";
+                card.innerHTML = `
+                    <div>
+                        <div class="flex justify-between items-center gap-2 mb-3">
+                            <span class="text-xs px-2.5 py-1 rounded-full border ${item.badgeColor} font-medium">${item.categoryName}</span>
+                            <span class="text-[11px] text-slate-400 bg-slate-900/90 px-2.5 py-1 rounded-md border border-slate-700 font-mono">${item.versions}</span>
+                        </div>
+                        <h3 class="text-lg font-bold text-white group-hover:text-emerald-400 transition">
+                            ${item.name} <span class="text-sm font-normal text-slate-400">(${item.enName})</span>
+                        </h3>
+                        <p class="text-xs text-slate-300 mt-2.5 mb-4 leading-relaxed line-clamp-3">${item.summary}</p>
+                        
+                        <div class="space-y-2 text-xs text-slate-400 border-t border-slate-700/60 pt-3.5">
+                            <p class="flex items-start gap-2">
+                                <i class="fa-solid fa-microchip text-emerald-400 mt-0.5 w-3.5 text-center"></i>
+                                <span><strong class="text-slate-200">載入器：</strong>${item.loaders}</span>
+                            </p>
+                            <p class="flex items-start gap-2">
+                                <i class="fa-solid fa-puzzle-piece text-amber-400 mt-0.5 w-3.5 text-center"></i>
+                                <span class="truncate"><strong class="text-slate-200">關聯/附屬：</strong>${item.addons}</span>
+                            </p>
+                        </div>
+                    </div>
+                    <button onclick="openModal(${item.id})" class="mt-5 w-full bg-slate-700/80 hover:bg-emerald-600 text-slate-200 hover:text-white py-2.5 rounded-xl text-xs font-medium transition flex items-center justify-center gap-2 cursor-pointer shadow-sm">
+                        <span>查看完整 MCMOD 百科與機制</span>
+                        <i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i>
+                    </button>
+                `;
+                cardGrid.appendChild(card);
+            });
+        }
+
+        window.openModal = function(id) {
+            const item = modsData.find(d => d.id === id);
+            if (!item) return;
+
+            const mechanicsList = item.mechanics.map(m => `<li class="flex items-start gap-2"><i class="fa-solid fa-caret-right text-emerald-400 mt-1"></i><span>${m}</span></li>`).join('');
+
+            modalContent.innerHTML = `
+                <div class="flex flex-wrap items-center gap-2 mb-3">
+                    <span class="text-xs px-3 py-1 rounded-full border ${item.badgeColor} font-medium">${item.categoryName}</span>
+                    <span class="text-xs bg-slate-900 text-slate-300 px-2.5 py-1 rounded-md border border-slate-700 font-mono"><i class="fa-solid fa-code-branch mr-1 text-emerald-400"></i>${item.versions}</span>
+                    <span class="text-xs bg-slate-900 text-slate-300 px-2.5 py-1 rounded-md border border-slate-700">${item.loaders}</span>
+                </div>
+                <h2 class="text-2xl font-bold text-white mb-1">${item.name} <span class="text-base font-normal text-slate-400">(${item.enName})</span></h2>
+                <p class="text-sm text-slate-300 leading-relaxed mb-5">${item.summary}</p>
+
+                <div class="space-y-4">
+                    <div class="bg-slate-900/70 p-4 rounded-xl border border-slate-700/70">
+                        <h4 class="text-xs font-bold text-emerald-400 uppercase tracking-wider mb-2.5 flex items-center gap-1.5">
+                            <i class="fa-solid fa-gears"></i> 核心機制與重點玩法
+                        </h4>
+                        <ul class="space-y-2 text-sm text-slate-200 leading-relaxed">
+                            ${mechanicsList}
+                        </ul>
+                    </div>
+
+                    <div class="bg-slate-900/70 p-4 rounded-xl border border-slate-700/70">
+                        <h4 class="text-xs font-bold text-cyan-400 uppercase tracking-wider mb-1.5 flex items-center gap-1.5">
+                            <i class="fa-solid fa-compass"></i> 世界生成與探索位置指南
+                        </h4>
+                        <p class="text-sm text-slate-300 leading-relaxed">${item.worldGenInfo}</p>
+                    </div>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                        <div class="bg-slate-900/50 p-3.5 rounded-xl border border-slate-700/50">
+                            <h4 class="text-xs font-bold text-amber-400 mb-1"><i class="fa-solid fa-puzzle-piece mr-1"></i>前置與推薦附屬模組</h4>
+                            <p class="text-xs text-slate-300 leading-relaxed">${item.addons}</p>
+                        </div>
+                        <div class="bg-slate-900/50 p-3.5 rounded-xl border border-slate-700/50">
+                            <h4 class="text-xs font-bold text-rose-400 mb-1"><i class="fa-solid fa-triangle-exclamation mr-1"></i>相容性與調校建議</h4>
+                            <p class="text-xs text-slate-300 leading-relaxed">${item.compatibilityNotes}</p>
+                        </div>
+                    </div>
+                </div>
+            `;
+            detailModal.classList.remove('hidden');
+        };
+
+        function setCategoryFilter(filterValue) {
+            currentFilter = filterValue;
+            
+            sidebarButtons.forEach(btn => {
+                if (btn.getAttribute('data-filter') === filterValue) {
+                    btn.classList.remove('text-slate-300', 'hover:bg-slate-700/70');
+                    btn.classList.add('bg-emerald-600', 'text-white');
+                } else {
+                    btn.classList.remove('bg-emerald-600', 'text-white');
+                    btn.classList.add('text-slate-300', 'hover:bg-slate-700/70');
+                }
+            });
+
+            topFilterButtons.forEach(btn => {
+                if (btn.getAttribute('data-filter') === filterValue) {
+                    btn.classList.remove('bg-slate-800', 'text-slate-300');
+                    btn.classList.add('bg-emerald-600', 'text-white');
+                } else {
+                    btn.classList.remove('bg-emerald-600', 'text-white');
+                    btn.classList.add('bg-slate-800', 'text-slate-300');
+                }
+            });
+
+            renderCards();
+        }
+
+        sidebarButtons.forEach(btn => btn.addEventListener('click', () => setCategoryFilter(btn.getAttribute('data-filter'))));
+        topFilterButtons.forEach(btn => btn.addEventListener('click', () => setCategoryFilter(btn.getAttribute('data-filter'))));
+        searchInput.addEventListener('input', (e) => {
+            currentSearch = e.target.value.trim();
+            renderCards();
+        });
+        closeModal.addEventListener('click', () => detailModal.classList.add('hidden'));
+        detailModal.addEventListener('click', (e) => {
+            if (e.target === detailModal) detailModal.classList.add('hidden');
+        });
+
+        renderCards();
+    </script>
+</body>
+</html>
